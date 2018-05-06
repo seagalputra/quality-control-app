@@ -20,10 +20,10 @@ import java.util.List;
  */
 public class HomeFragment extends Fragment {
 
-    //Define variable for Movie RecyclerView
-    private List<Movie> movieList = new ArrayList<>();
+    //Define variable for Product RecyclerView
+    private List<Product> productList = new ArrayList<>();
     private RecyclerView recyclerView;
-    private MoviesAdapter mAdapter;
+    private ProductAdapter pAdapter;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -37,68 +37,28 @@ public class HomeFragment extends Fragment {
         // return inflater.inflate(R.layout.fragment_home, container, false);
         View home_fragment = inflater.inflate(R.layout.fragment_home, container, false);
 
-        // Create List for Movie
+        // Create List for Product
         recyclerView = (RecyclerView) home_fragment.findViewById(R.id.recyclerview_home);
-        mAdapter = new MoviesAdapter(movieList);
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
+        pAdapter = new ProductAdapter(productList);
+        RecyclerView.LayoutManager pLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(pLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        recyclerView.setAdapter(pAdapter);
 
-        prepareMovieData();
+        prepareProductData();
         return home_fragment;
     }
 
-    private void prepareMovieData() {
-        Movie movie = new Movie("Mad Max: Fury Road", "Action & Adventure", "2015");
-        movieList.add(movie);
+    private void prepareProductData() {
+        Product product = new Product("Swallow X", "Sepatu", "Rp 12.500");
+        productList.add(product);
 
-        movie = new Movie("Inside Out", "Animation, Kids & Family", "2015");
-        movieList.add(movie);
+        product = new Product("Swallow Pro M1", "Sepatu", "Rp 1.100");
+        productList.add(product);
 
-        movie = new Movie("Star Wars: Episode VII - The Force Awakens", "Action", "2015");
-        movieList.add(movie);
+        product = new Product("Prudential Shoes", "Sepatu", "Rp 1.000.000");
+        productList.add(product);
 
-        movie = new Movie("Shaun the Sheep", "Animation", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("The Martian", "Science Fiction & Fantasy", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("Mission: Impossible Rogue Nation", "Action", "2015");
-        movieList.add(movie);
-
-        movie = new Movie("Up", "Animation", "2009");
-        movieList.add(movie);
-
-        movie = new Movie("Star Trek", "Science Fiction", "2009");
-        movieList.add(movie);
-
-        movie = new Movie("The LEGO Movie", "Animation", "2014");
-        movieList.add(movie);
-
-        movie = new Movie("Iron Man", "Action & Adventure", "2008");
-        movieList.add(movie);
-
-        movie = new Movie("Aliens", "Science Fiction", "1986");
-        movieList.add(movie);
-
-        movie = new Movie("Chicken Run", "Animation", "2000");
-        movieList.add(movie);
-
-        movie = new Movie("Back to the Future", "Science Fiction", "1985");
-        movieList.add(movie);
-
-        movie = new Movie("Raiders of the Lost Ark", "Action & Adventure", "1981");
-        movieList.add(movie);
-
-        movie = new Movie("Goldfinger", "Action & Adventure", "1965");
-        movieList.add(movie);
-
-        movie = new Movie("Guardians of the Galaxy", "Science Fiction & Fantasy", "2014");
-        movieList.add(movie);
-
-        mAdapter.notifyDataSetChanged();
+        pAdapter.notifyDataSetChanged();
     }
-
 }
