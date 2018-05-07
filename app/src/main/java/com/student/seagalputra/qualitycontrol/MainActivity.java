@@ -1,5 +1,7 @@
 package com.student.seagalputra.qualitycontrol;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.content.Intent;
@@ -9,7 +11,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.support.v7.widget.Toolbar;
@@ -24,11 +25,16 @@ public class MainActivity extends AppCompatActivity {
     private HomeFragment homeFragment;
     private CreateFragment createFragement;
     private ProfileFragment profileFragment;
+    SharedPreferences sharedPreferences;
+
+    public static final String TAG_USERNAME = "id_pegawai";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = getSharedPreferences(LoginActivity.my_shared_preferences, Context.MODE_PRIVATE);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -52,7 +58,11 @@ public class MainActivity extends AppCompatActivity {
                         return true;
 
                     case R.id.navigation_create:
-                        setFragment(createFragement);
+                        //setFragment(createFragement);
+
+                        // Start create activity to add new data
+                        Intent intent = new Intent(getBaseContext(), CreateActivity.class);
+                        startActivity(intent);
                         return true;
 
                     case R.id.navigation_profile:

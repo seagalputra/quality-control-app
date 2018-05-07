@@ -27,7 +27,8 @@
             android:layout_below="@id/img_logo"
             android:paddingLeft="21dp"
             android:inputType="textPersonName"
-            android:hint="@string/username"
+            android:hint="ID Pegawai"
+            android:singleLine="true"
             android:background="@drawable/ic_loginbox"
             android:layout_marginTop="48dp" />
 
@@ -40,7 +41,8 @@
             android:inputType="textPassword"
             android:hint="@string/password"
             android:background="@drawable/ic_loginbox"
-            android:layout_marginTop="24dp" />
+            android:layout_marginTop="24dp"
+            android:singleLine="true" />
 
         <Button
             android:id="@+id/btn_login"
@@ -51,8 +53,7 @@
             android:text="@string/sign_in"
             android:textAllCaps="false"
             android:textColor="@color/colorAccent"
-            android:background="@drawable/ic_btnlogin"
-            android:onClick="mainActivity" />
+            android:background="@drawable/ic_btnlogin" />
 
         <TextView
             android:id="@+id/btn_forgot"
