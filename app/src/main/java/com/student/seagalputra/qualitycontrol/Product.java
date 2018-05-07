@@ -1,15 +1,17 @@
 package com.student.seagalputra.qualitycontrol;
 
+import com.android.volley.toolbox.StringRequest;
+
 /**
  * Created by seagalputra on 5/6/18.
  */
 
 public class Product {
-    private String idProduct, name, type, price, buyPrice;
-    private int productQuantity;
-    private boolean productStatus;
+    private String idProduct, name, type, brand, price;
+    private int buyPrice, productQuantity;
+    private int productStatus;
 
-    public Product() {
+    public Product(String id_produk) {
 
     }
 
@@ -21,14 +23,15 @@ public class Product {
     }
 
     // Constructor for Product View
-    public Product(String idProduct, String name, String type, String price, String buyPrice, int productQuantity, boolean productStatus) {
+    public Product(String idProduct, String name, String type, String brand, String price, int buyPrice, int productStatus, int productQuantity) {
         this.idProduct = idProduct;
         this.name = name;
         this.type = type;
+        this.brand = brand;
         this.price = price;
         this.buyPrice = buyPrice;
-        this.productQuantity = productQuantity;
         this.productStatus = productStatus;
+        this.productQuantity = productQuantity;
     }
 
     public String getIdProduct() {
@@ -43,11 +46,15 @@ public class Product {
         return type;
     }
 
+    public String getBrand() {
+        return brand;
+    }
+
     public String getPrice() {
         return price;
     }
 
-    public String getBuyPrice() {
+    public int getBuyPrice() {
         return buyPrice;
     }
 
@@ -55,7 +62,7 @@ public class Product {
         return productQuantity;
     }
 
-    public boolean isProductStatus() {
+    public int getProductStatus() {
         return productStatus;
     }
 
@@ -71,11 +78,15 @@ public class Product {
         this.type = type;
     }
 
+    public void setBrand(String brand) {
+        this.brand = brand;
+    }
+
     public void setPrice(String price) {
         this.price = price;
     }
 
-    public void setBuyPrice(String buyPrice) {
+    public void setBuyPrice(int buyPrice) {
         this.buyPrice = buyPrice;
     }
 
@@ -83,7 +94,7 @@ public class Product {
         this.productQuantity = productQuantity;
     }
 
-    public void setProductStatus(boolean productStatus) {
+    public void setProductStatus(int productStatus) {
         this.productStatus = productStatus;
     }
 }

@@ -1,119 +1,147 @@
 package com.student.seagalputra.qualitycontrol;
 
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.json.JSONStringer;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class HomeFragment extends Fragment {
 
-    //Define variable for Product RecyclerView
-    private List<Product> productList = new ArrayList<>();
-    //private RecyclerView recyclerView;
-    //private ProductAdapter pAdapter;
-    //private DividerItemDecoration dividerItemDecoration;
-    private ListView listView;
-    private String JSON_STRING;
+public class HomeFragment extends Fragment {
+    private static final String TAG = HomeFragment.class.getSimpleName();
+    private static final String URL = "http://10.20.32.242/android_login_api/include/produk.json";
+
+    private RecyclerView recyclerView;
+    private List<Product> productList;
+    private ProductAdapter mAdapter;
 
     public HomeFragment() {
-        // Required empty public constructor
+
     }
 
+    public static HomeFragment newInstance(String param1, String param2) {
+        HomeFragment fragment = new HomeFragment();
+        Bundle args = new Bundle();
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View home_fragment = inflater.inflate(R.layout.fragment_home, container, false);
-
-        // Create List for Product
-        //recyclerView = (RecyclerView) home_fragment.findViewById(R.id.recyclerview_home);
-        //pAdapter = new ProductAdapter(productList);
-        //LinearLayoutManager pLayoutManager = new LinearLayoutManager(getActivity());
-        //recyclerView.setLayoutManager(pLayoutManager);
-        //recyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        // Add divider in RecyclerView
-        //dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(), pLayoutManager.getOrientation());
-        //recyclerView.addItemDecoration(dividerItemDecoration);
-
-        // Set RecyclerView adapter
-        //recyclerView.setAdapter(pAdapter);
-
-        //prepareProductData();
-        //listView = (ListView) getContext().findViewById(R.id.listView);
-        listView = (ListView) getActivity().findViewById(R.id.listView);
-        // listView.setOnClickListener(this);
-        getJSON();
-
-        return home_fragment;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 
-    private void showProduct() {
-        JSONObject jsonObject = null;
-        ArrayList<HashMap<String, String>> list = new ArrayList<HashMap<String, String>>();
-        try {
-            jsonObject = new JSONObject(JSON_STRING);
-            JSONArray result = jsonObject.getJSONArray(Server.TAG_JSON_ARRAY);
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-            for (int i = 0; i < result.length(); i++) {
-                JSONObject jo = result.getJSONObject(i);
-                String nameProduct = jo.getString(Server.TAG_JSON_PRODUCT_NAME);
-                String priceProduct = jo.getString(Server.TAG_JSON_PRODUCT_SELL_PRICE);
+        recyclerView = view.findViewById(R.id.recyclerview_home);
+        productList = new ArrayList<>();
+        mAdapter = new ProductAdapter(getActivity(), productList);
 
-                HashMap<String, String> product = new HashMap<>();
-                product.put(Server.TAG_JSON_PRODUCT_NAME,nameProduct);
-                product.put(Server.TAG_JSON_PRODUCT_SELL_PRICE, priceProduct);
-                list.add(product);
+        //RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getActivity(), 3);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
+        //recyclerView.setNestedScrollingEnabled(false);
+
+        fetchProductItems();
+
+        return view;
+    }
+
+    private void fetchProductItems() {
+        JsonArrayRequest request = new JsonArrayRequest(URL,
+                new Response.Listener<JSONArray>() {
+                    @Override
+                    public void onResponse(JSONArray response) {
+                        if (response == null) {
+                            Toast.makeText(getActivity(), "Couldn't fetch the product items! Please try again.", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+
+                        List<Product> items = new Gson().fromJson(response.toString(), new TypeToken<List<Product>>() {
+                        }.getType());
+
+                        productList.clear();
+                        productList.addAll(items);
+
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.e(TAG, "Error: " + error.getMessage());
+                Toast.makeText(getActivity(), "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
             }
-        } catch (JSONException e) {
-            e.printStackTrace();
+        });
+
+        AppController.getInstance().addToRequestQueue(request);
+    }
+
+    class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
+        private Context context;
+        private List<Product> productList;
+
+        public class MyViewHolder extends RecyclerView.ViewHolder {
+            public TextView name, type, price;
+
+            public MyViewHolder(View view) {
+                super(view);
+                name = view.findViewById(R.id.product_name);
+                type = view.findViewById(R.id.product_type);
+                price = view.findViewById(R.id.product_price);
+            }
         }
 
-        ListAdapter adapter = new SimpleAdapter(
-                getContext(), list, R.layout.fragment_home, new String[]{Server.TAG_JSON_PRODUCT_ID, Server.TAG_JSON_PRODUCT_NAME}, new int[]{R.id.name_product, R.id.price_product});
+        public ProductAdapter(Context context, List<Product> productList) {
+            this.context = context;
+            this.productList = productList;
+        }
+
+        @Override
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View itemView = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.product_list_row, parent, false);
+
+            return new MyViewHolder(itemView);
+        }
+
+        @Override
+        public void onBindViewHolder(MyViewHolder holder, final int position) {
+            final Product product = productList.get(position);
+            holder.name.setText(product.getName());
+            holder.type.setText(product.getType());
+            holder.type.setText(product.getPrice());
+        }
+
+        @Override
+        public int getItemCount() {
+            return productList.size();
+        }
     }
-
-    private void getJSON() {
-
-    }
-
-    /*
-    private void prepareProductData() {
-        Product product = new Product("Swallow X", "Sepatu", "Rp 12.500");
-        productList.add(product);
-
-        product = new Product("Swallow Pro M1", "Sepatu", "Rp 1.100");
-        productList.add(product);
-
-        product = new Product("Prudential Shoes", "Sepatu", "Rp 1.000.000");
-        productList.add(product);
-
-        pAdapter.notifyDataSetChanged();
-    } **/
 }
+
