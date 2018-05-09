@@ -54,8 +54,8 @@ public class Adapter extends BaseAdapter {
             convertView = inflater.inflate(R.layout.list_row, null);
         }
 
-        TextView id = (TextView) convertView.findViewById(R.id.id_cek);
-        TextView idProduk = (TextView) convertView.findViewById(R.id.id_produk);
+        TextView id = (TextView) convertView.findViewById(R.id.idCek);
+        TextView idProduk = (TextView) convertView.findViewById(R.id.idProduk);
         TextView tglQc = (TextView) convertView.findViewById(R.id.tglQc);
 
         QualityControl data = items.get(position);

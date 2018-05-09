@@ -6,5 +6,5 @@ package com.student.seagalputra.qualitycontrol.url;
 
 public class Server {
 
-    public static final String URL = "http://172.20.10.5/android_login_api/include/";
+    public static final String URL = "http://10.20.33.46/android_login_api/include/";
 }

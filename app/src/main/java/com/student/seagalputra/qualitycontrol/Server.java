@@ -2,7 +2,7 @@ package com.student.seagalputra.qualitycontrol;
 
 public class Server {
     // Script PHP to get MySQL Data
-    public static final String URL_LOGIN = "http://172.20.10.5/android_login_api/include/login.php";
+    public static final String URL_LOGIN = "http://10.20.33.46/android_login_api/include/login.php";
     public static final String URL_ADD_PRODUCT = "http://10.20.33.46/android_login_api/include/tambahProduct.php";
     public static final String URL_GET_PRODUCT = "http://10.20.33.46/android_login_api/include/tampilProduct.php";
     public static final String URL_GET_PRODUCT_ALL = "http://10.20.33.46/android_login_api/include/tampilSemuaProduct.php";

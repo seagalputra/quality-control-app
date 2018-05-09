@@ -52,8 +52,8 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
     AlertDialog.Builder dialog;
     LayoutInflater inflater;
     View dialogView;
-    EditText txIdCek, txIdProduk, txTglQc;
-    String idCek, idProduk, tglQc;
+    EditText txIdCek, txIdProduk, txIdPemesanan, txTglQc, txStatusQc, txJumBarang, txKondisiWarna, txKondisiSole;
+    String idCek, idProduk, idPemesanan, tglQc, statusQc, jumBarang, kondisiWarna, kondisiSole;
 
     private static final String TAG = QualityControlActivity.class.getSimpleName();
 
@@ -65,7 +65,12 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
 
     public static final String TAG_ID = "id_cek";
     public static final String TAG_ID_PRODUK = "id_produk";
-    public static final String TAG_TANGGAL_QC = "tgl_qc";
+    public static final String TAG_ID_PEMESANAN = "id_pemesanan";
+    public static final String TAG_TANGGAL_QC = "tanggal_qc";
+    public static final String TAG_STATUS_QC = "status_qc";
+    public static final String TAG_JML_BARANG = "jml_barang";
+    public static final String TAG_KONDISI_WARNA = "kondisi_warna";
+    public static final String TAG_KONDISI_SOLE = "kondisi_sole";
     private static final String TAG_SUCCESS = "success";
     private static final String TAG_MESSAGE = "message";
 
@@ -99,7 +104,7 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                DialogForm("", "", "", "SIMPAN");
+                DialogForm("", "", "", "", "", "", "", "", "SIMPAN");
             }
         });
 
@@ -141,7 +146,7 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
         txTglQc.setText(null);
     }
 
-    private void DialogForm(String idx, String idProduks, String tglQcs, String button) {
+    private void DialogForm(String idx, String idProduks, String idPemesanans, String tglQcs, String statusQcs, String jumlahBarangs, String kondisiWarnas, String kondisiSoles, String button) {
         dialog = new AlertDialog.Builder(QualityControlActivity.this);
         inflater = getLayoutInflater();
         dialogView = inflater.inflate(R.layout.quality_control, null);
@@ -152,12 +157,22 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
 
         txIdCek = (EditText) dialogView.findViewById(R.id.id_cek);
         txIdProduk = (EditText) dialogView.findViewById(R.id.id_produk);
+        txIdPemesanan = (EditText) dialogView.findViewById(R.id.id_pemesanan);
         txTglQc = (EditText) dialogView.findViewById(R.id.tgl_qc);
+        txStatusQc = (EditText) dialogView.findViewById(R.id.status_qc);
+        txJumBarang = (EditText) dialogView.findViewById(R.id.jumlah_barang);
+        txKondisiWarna = (EditText) dialogView.findViewById(R.id.kondisi_warna);
+        txKondisiSole = (EditText) dialogView.findViewById(R.id.kondisi_sol);
 
         if (!idx.isEmpty()) {
             txIdCek.setText(idx);
             txIdProduk.setText(idProduks);
+            txIdPemesanan.setText(idPemesanans);
             txTglQc.setText(tglQcs);
+            txStatusQc.setText(statusQcs);
+            txJumBarang.setText(jumlahBarangs);
+            txKondisiWarna.setText(kondisiWarnas);
+            txKondisiSole.setText(kondisiSoles);
         } else {
             kosong();
         }
@@ -167,7 +182,12 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
             public void onClick(DialogInterface dialog, int which) {
                 idCek = txIdCek.getText().toString();
                 idProduk = txIdProduk.getText().toString();
+                idPemesanan = txIdPemesanan.getText().toString();
                 tglQc = txTglQc.getText().toString();
+                statusQc = txStatusQc.getText().toString();
+                jumBarang = txJumBarang.getText().toString();
+                kondisiWarna = txKondisiWarna.getText().toString();
+                kondisiSole = txKondisiSole.getText().toString();
 
                 simpan_update();
                 dialog.dismiss();
@@ -272,11 +292,21 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
 
                 if (idCek.isEmpty()) {
                     params.put("id_produk", idProduk);
-                    params.put("tgl_qc", tglQc);
+                    params.put("id_pemesanan", idPemesanan);
+                    params.put("tanggal_qc", tglQc);
+                    params.put("status_qc", statusQc);
+                    params.put("jml_barang", jumBarang);
+                    params.put("kondisi_warna", kondisiWarna);
+                    params.put("kondisi_sole", kondisiSole);
                 } else {
                     params.put("id_cek", idCek);
                     params.put("id_produk", idProduk);
-                    params.put("tgl_qc", tglQc);
+                    params.put("id_pemesanan", idPemesanan);
+                    params.put("tanggal_qc", tglQc);
+                    params.put("status_qc", statusQc);
+                    params.put("jml_barang", jumBarang);
+                    params.put("kondisi_warna", kondisiWarna);
+                    params.put("kondisi_sole", kondisiSole);
                 }
 
                 return params;
@@ -300,9 +330,14 @@ public class QualityControlActivity extends AppCompatActivity implements SwipeRe
                         Log.d("get edit data", jObj.toString());
                         String idx = jObj.getString(TAG_ID);
                         String idProdukx = jObj.getString(TAG_ID_PRODUK);
+                        String idPemesananx = jObj.getString(TAG_ID_PEMESANAN);
                         String tglQcx = jObj.getString(TAG_TANGGAL_QC);
+                        String statusQcx = jObj.getString(TAG_STATUS_QC);
+                        String jmlBarangx = jObj.getString(TAG_JML_BARANG);
+                        String kondisiWarnax = jObj.getString(TAG_KONDISI_WARNA);
+                        String kondisiSolex = jObj.getString(TAG_KONDISI_SOLE);
 
-                        DialogForm(idx, idProdukx, tglQcx, "UBAH");
+                        DialogForm(idx, idProdukx, idPemesananx, tglQcx, statusQcx, jmlBarangx, kondisiWarnax, kondisiSolex, "UBAH");
 
                         adapter.notifyDataSetChanged();
                     } else {

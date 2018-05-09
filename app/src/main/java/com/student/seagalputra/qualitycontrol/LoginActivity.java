@@ -138,10 +138,10 @@ public class LoginActivity extends AppCompatActivity {
                         editor.commit();
 
                         // Call main activity
-                        // Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        // intent.putExtra(TAG_USERNAME, username);
-                        // finish();
-                        // startActivity(intent);
+//                         Intent intent = new Intent(LoginActivity.this, QualityControlActivity.class);
+//                         intent.putExtra(TAG_USERNAME, username);
+//                         finish();
+//                         startActivity(intent);
                     } else {
                         Toast.makeText(getApplicationContext(), jObj.getString(TAG_MESSAGE), Toast.LENGTH_LONG).show();
                     }
