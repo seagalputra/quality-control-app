@@ -79,7 +79,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onResponse(JSONArray response) {
                         if (response == null) {
-                            Toast.makeText(getActivity(), "Couldn't fetch the product items! Please try again.", Toast.LENGTH_LONG).show();
+                            Toast.makeText(getActivity(), "Couldn't fetch the quality_control items! Please try again.", Toast.LENGTH_LONG).show();
                             return;
                         }
 

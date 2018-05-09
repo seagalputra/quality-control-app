@@ -22,7 +22,7 @@ public class Product {
         this.price = price;
     }
 
-    // Constructor for Product View
+    // Constructor for QualityControl View
     public Product(String idProduct, String name, String type, String brand, String price, int buyPrice, int productStatus, int productQuantity) {
         this.idProduct = idProduct;
         this.name = name;

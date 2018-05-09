@@ -21,6 +21,8 @@ import com.android.volley.toolbox.StringRequest;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.student.seagalputra.qualitycontrol.volley.AppController;
+
 import java.io.StringReader;
 import java.lang.annotation.Inherited;
 import java.util.HashMap;
@@ -113,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Log.e(TAG, "Login Response: " + response.toString());
                 hideDialog();
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, QualityControlActivity.class);
                 intent.putExtra(TAG_USERNAME, username);
                 finish();
                 startActivity(intent);
